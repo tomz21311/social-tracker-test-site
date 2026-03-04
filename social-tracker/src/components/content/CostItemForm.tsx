@@ -3,6 +3,7 @@
 import { useState, useRef, useEffect } from 'react';
 import { X } from 'lucide-react';
 import { ProductionCost } from '@/types';
+import type { CostType } from '@/types';
 import { COST_TYPES, dollarsToCents } from '@/lib/constants';
 import { useVendors } from '@/hooks/useVendors';
 
@@ -29,7 +30,7 @@ export function CostItemForm({
     initialData?.provider_type || 'vendor'
   );
   const [vendorName, setVendorName] = useState(initialData?.vendor_name || '');
-  const [costType, setCostType] = useState(initialData?.cost_type || '');
+  const [costType, setCostType] = useState<CostType | ''>(initialData?.cost_type || '');
   const [amount, setAmount] = useState(
     initialData?.amount ? String(initialData.amount / 100) : ''
   );
@@ -163,7 +164,7 @@ export function CostItemForm({
               <select
                 id="cost-type"
                 value={costType}
-                onChange={(e) => setCostType(e.target.value)}
+                onChange={(e) => setCostType(e.target.value as CostType | '')}
               >
                 <option value="">Select type</option>
                 {COST_TYPES.map((t) => (
