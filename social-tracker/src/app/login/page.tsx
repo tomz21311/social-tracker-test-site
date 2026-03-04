@@ -5,8 +5,9 @@ import { useRouter } from 'next/navigation';
 import { signIn } from '@/lib/auth';
 import { TrendingUp } from 'lucide-react';
 
+const APP_USER_EMAIL = process.env.NEXT_PUBLIC_APP_USER_EMAIL!;
+
 export default function LoginPage() {
-  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
@@ -17,7 +18,7 @@ export default function LoginPage() {
     setLoading(true);
     setError('');
 
-    const { error: authError } = await signIn(email, password);
+    const { error: authError } = await signIn(APP_USER_EMAIL, password);
 
     if (authError) {
       setError('Invalid email or password.');
@@ -43,19 +44,6 @@ export default function LoginPage() {
         {/* Form */}
         <form onSubmit={handleSubmit} className="card p-6 space-y-4">
           <div>
-            <label htmlFor="email">Email</label>
-            <input
-              id="email"
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="you@example.com"
-              required
-              autoFocus
-            />
-          </div>
-
-          <div>
             <label htmlFor="password">Password</label>
             <input
               id="password"
@@ -64,6 +52,7 @@ export default function LoginPage() {
               onChange={(e) => setPassword(e.target.value)}
               placeholder="Enter your password"
               required
+              autoFocus
             />
           </div>
 
